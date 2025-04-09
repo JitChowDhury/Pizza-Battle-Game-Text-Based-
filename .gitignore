@@ -1,0 +1,25 @@
+# Ignore build artifacts
+bin/
+obj/
+
+# Visual Studio folder
+.vs/
+
+# Rider and VS Code
+.idea/
+.vscode/
+
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore runtime files
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.json
+
+# Ignore generated configs
+*.csproj.user
