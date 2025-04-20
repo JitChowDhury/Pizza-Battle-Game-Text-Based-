@@ -3,24 +3,32 @@ using static Program;
 
 class Program
 {
+    // Main entry point of the program
     static void Main()
     {
+        // Create a new game instance and start the game loop
         Game game = new Game();
         game.GameLoop();
     }
 
+    /// <summary>
+    /// Player class representing the hero character (Dough Master)
+    /// </summary>
     public class Player
     {
+        // Player attributes
         private int health = 100;
         private int maxHealth = 100;
         private int attackDamage = 20;
         private int healingCapacity = 15;
 
+        // Health property with validation
         public int Health
         {
             get { return health; }
             set
             {
+                // Ensure health stays within bounds (0 - maxHealth)
                 if (value < 0)
                     health = 0;
                 else if (value > maxHealth)
@@ -30,11 +38,15 @@ class Program
             }
         }
 
+        // Constructor - called when player is created
         public Player()
         {
             spawnPlayer();
         }
 
+        /// <summary>
+        /// Display player introduction and backstory
+        /// </summary>
         private void spawnPlayer()
         {
             Console.WriteLine("\n==================================================");
@@ -43,27 +55,40 @@ class Program
             Console.WriteLine("\nDough Master: That scoundrel won't escape with my creation!\n");
         }
 
+        /// <summary>
+        /// Generate a random number within specified range
+        /// </summary>
         private int generateRandomInRange(int min, int max)
         {
             Random rand = new Random();
             return rand.Next(min, max + 1);
         }
 
+        /// <summary>
+        /// Calculate total attack damage with random bonus
+        /// </summary>
         public int CalculateTotalDamage()
         {
             int additionalDamage = generateRandomInRange(5, 15);
             return attackDamage + additionalDamage;
         }
 
+        /// <summary>
+        /// Calculate total healing amount with random bonus
+        /// </summary>
         public int CalculateTotalHeal()
         {
             int additionalHeal = generateRandomInRange(10, 20);
             return healingCapacity + additionalHeal;
         }
 
+        // Methods to modify player health
         public void TakeDamage(int damageRecieved) => Health -= damageRecieved;
         public void Heal(int healAmount) => Health += healAmount;
 
+        /// <summary>
+        /// Display attack results to the player
+        /// </summary>
         public void ShowAttackDamage(int totalDamage)
         {
             Console.WriteLine("               PIZZA BATTLE                     ");
@@ -72,6 +97,9 @@ class Program
             Console.WriteLine("--------------------------------------------");
         }
 
+        /// <summary>
+        /// Display healing results to the player
+        /// </summary>
         public void ShowHeal(int healAmount)
         {
             Console.WriteLine("               PIZZA BATTLE                    ");
@@ -85,6 +113,9 @@ class Program
             Console.WriteLine("--------------------------------------------");
         }
 
+        /// <summary>
+        /// Display current player stats (health, attack, etc.)
+        /// </summary>
         public void DisplayPlayerStats()
         {
             Console.WriteLine("\n---------------------------------------------------\n");
@@ -98,17 +129,23 @@ class Program
         }
     }
 
+    /// <summary>
+    /// Enemy class representing the antagonist (Crust Bandit)
+    /// </summary>
     public class Enemy
     {
+        // Enemy attributes
         private int health = 150;
         private int maxHealth = 150;
         private int attackDamage = 15;
 
+        // Health property with validation
         public int Health
         {
             get { return health; }
             set
             {
+                // Ensure health stays within bounds (0 - maxHealth)
                 if (value < 0)
                     health = 0;
                 else if (value > maxHealth)
@@ -118,11 +155,15 @@ class Program
             }
         }
 
+        // Constructor - called when enemy is created
         public Enemy()
         {
             spawnEnemy();
         }
 
+        /// <summary>
+        /// Display enemy introduction and taunt
+        /// </summary>
         private void spawnEnemy()
         {
             Console.WriteLine("\n==================================================\n");
@@ -131,20 +172,30 @@ class Program
             Console.WriteLine("\n\nYou'll never catch me, flour face!");
         }
 
+        /// <summary>
+        /// Generate a random number within specified range
+        /// </summary>
         private int generateRandomNumberInRange(int min, int max)
         {
             Random rand = new Random();
             return rand.Next(min, max + 1);
         }
 
+        /// <summary>
+        /// Calculate total attack damage with random bonus
+        /// </summary>
         public int CalculateTotalDamage()
         {
             int additionalDamage = generateRandomNumberInRange(5, 15);
             return attackDamage + additionalDamage;
         }
 
+        // Method to modify enemy health
         public void TakeDamage(int damageRecieved) => Health -= damageRecieved;
 
+        /// <summary>
+        /// Display attack results to the player
+        /// </summary>
         public void ShowAttackDamage(int totalDamage)
         {
             Console.WriteLine("               PIZZA BATTLE                     ");
@@ -153,6 +204,9 @@ class Program
             Console.WriteLine("--------------------------------------------");
         }
 
+        /// <summary>
+        /// Display current enemy stats
+        /// </summary>
         public void DisplayEnemyStats()
         {
             Console.WriteLine("\n---------------------------------------------------\n");
@@ -164,12 +218,19 @@ class Program
         }
     }
 
+    /// <summary>
+    /// Main Game class that controls the game flow and logic
+    /// </summary>
     class Game
     {
-        Player player;
-        Enemy enemy;
-        bool isGameExited;
+        // Game state variables
+        private Player player;
+        private Enemy enemy;
+        private bool isGameExited;
 
+        /// <summary>
+        /// Display the game's backstory and introduction
+        /// </summary>
         private void DisplayGameStory()
         {
             Console.WriteLine("\n================================================");
@@ -191,12 +252,18 @@ class Program
                 "                    FIGHT!                   ");
         }
 
+        /// <summary>
+        /// Initialize player and enemy characters
+        /// </summary>
         private void SpawnCharacters()
         {
             player = new Player();
             enemy = new Enemy();
         }
 
+        /// <summary>
+        /// Main battle loop - continues until one character is defeated
+        /// </summary>
         private void ProcessBattleLoop()
         {
             do
@@ -207,6 +274,9 @@ class Program
             while (AreCharactersAlive());
         }
 
+        /// <summary>
+        /// Display available battle actions to the player
+        /// </summary>
         private void ShowBattleOptions()
         {
             Console.WriteLine("\n==================================================");
@@ -219,6 +289,9 @@ class Program
             Console.Write("  Your choice: ");
         }
 
+        /// <summary>
+        /// Process player's battle choice and execute corresponding action
+        /// </summary>
         private void ProcesBattleInput()
         {
             string PlayerChoice = GetInput();
@@ -226,7 +299,7 @@ class Program
 
             switch (PlayerChoice)
             {
-                case "A":
+                case "A": // Attack chosen
                     PlayerAttack();
                     if (CheckGameOver()) break;
                     EnemyAttack();
@@ -234,26 +307,35 @@ class Program
                     DisplayerCharacterStats();
                     break;
 
-                case "H":
+                case "H": // Heal chosen
                     PlayerHeal();
                     EnemyAttack();
                     if (CheckGameOver()) break;
                     DisplayerCharacterStats();
                     break;
 
-                default:
+                default: // Invalid input
                     InvalidInput();
                     break;
             }
         }
 
+        /// <summary>
+        /// Get and sanitize player input
+        /// </summary>
         private string GetInput()
         {
             return Console.ReadLine().ToUpper();
         }
 
+        /// <summary>
+        /// Display invalid input message
+        /// </summary>
         private void InvalidInput() => Console.WriteLine("Invalid Input! please try again");
 
+        /// <summary>
+        /// Display start menu with game options
+        /// </summary>
         private void StartMenu()
         {
             Console.WriteLine("==================================================");
@@ -263,6 +345,9 @@ class Program
             ProcessStartMenuInput();
         }
 
+        /// <summary>
+        /// Process start menu choice
+        /// </summary>
         private void ProcessStartMenuInput()
         {
             if (GetInput() == "S")
@@ -277,6 +362,9 @@ class Program
             }
         }
 
+        /// <summary>
+        /// Display restart menu after game ends
+        /// </summary>
         private void RestartMenu()
         {
             Console.WriteLine("\n==================================================");
@@ -286,6 +374,9 @@ class Program
             ProcessRestartMenuInput();
         }
 
+        /// <summary>
+        /// Process restart menu choice
+        /// </summary>
         private void ProcessRestartMenuInput()
         {
             if (GetInput() == "R")
@@ -294,6 +385,9 @@ class Program
                 ExitGame();
         }
 
+        /// <summary>
+        /// Exit the game gracefully
+        /// </summary>
         private void ExitGame()
         {
             Console.Clear();
@@ -301,6 +395,9 @@ class Program
             isGameExited = true;
         }
 
+        /// <summary>
+        /// Execute player attack sequence
+        /// </summary>
         private void PlayerAttack()
         {
             int totalDamage = player.CalculateTotalDamage();
@@ -308,6 +405,9 @@ class Program
             player.ShowAttackDamage(totalDamage);
         }
 
+        /// <summary>
+        /// Execute player heal sequence
+        /// </summary>
         private void PlayerHeal()
         {
             int totalHeal = player.CalculateTotalHeal();
@@ -315,6 +415,9 @@ class Program
             player.ShowHeal(totalHeal);
         }
 
+        /// <summary>
+        /// Execute enemy attack sequence
+        /// </summary>
         private void EnemyAttack()
         {
             int totalDamage = enemy.CalculateTotalDamage();
@@ -322,12 +425,18 @@ class Program
             enemy.ShowAttackDamage(totalDamage);
         }
 
+        /// <summary>
+        /// Display current stats for both characters
+        /// </summary>
         private void DisplayerCharacterStats()
         {
             player.DisplayPlayerStats();
             enemy.DisplayEnemyStats();
         }
 
+        /// <summary>
+        /// Check if game should end (one character defeated)
+        /// </summary>
         private bool CheckGameOver()
         {
             if (enemy.Health <= 0)
@@ -343,6 +452,9 @@ class Program
             return false;
         }
 
+        /// <summary>
+        /// Display victory screen
+        /// </summary>
         private void ShowGameWin()
         {
             Console.Clear();
@@ -358,6 +470,9 @@ class Program
             Console.WriteLine("==================================================");
         }
 
+        /// <summary>
+        /// Display game over screen
+        /// </summary>
         private void ShowGameLose()
         {
             Console.Clear();
@@ -374,11 +489,17 @@ class Program
             Console.WriteLine("==================================================");
         }
 
+        /// <summary>
+        /// Check if both characters are still alive
+        /// </summary>
         private bool AreCharactersAlive()
         {
             return player.Health > 0 && enemy.Health > 0;
         }
 
+        /// <summary>
+        /// Main game loop controlling the overall game flow
+        /// </summary>
         public void GameLoop()
         {
             while (!isGameExited)
