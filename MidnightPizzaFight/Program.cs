@@ -490,8 +490,9 @@ class Program
         }
 
         /// <summary>
-        /// Check if both characters are still alive
+        /// Check if both characters are still alive or not
         /// </summary>
+
         private bool AreCharactersAlive()
         {
             return player.Health > 0 && enemy.Health > 0;
